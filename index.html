@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brandon Garcia Portfolio</title>
+<meta name="description" content="Brandon Garcia, computer engineering student at Utah Tech University. Embedded systems, PCB design, sensors and control hardware.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: a drafting sheet. Left-aligned content on faint grid paper; engineering title blocks are the one repeated device. */
+  --paper: #F3F5F2;
+  --grid: #E2E7E2;
+  --ink: #17202A;
+  --ink-2: #4F5B66;
+  --rule: #C5CDC7;
+  --wire: #A8231C;
+  --mask: #1E6B45;
+  --mat: #FFFFFF;
+  --font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: 1.75rem;
+  --step-3: 2.5rem;
+  --gutter: clamp(16px, 4vw, 48px);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--wire); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--wire); outline-offset: 3px; }
+
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h2 {
+  font-size: var(--step-3);
+  font-stretch: 68%;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.005em;
+}
+h3 {
+  font-size: var(--step-2);
+  font-stretch: 75%;
+  font-weight: 700;
+  line-height: 1.1;
+}
+p { margin: 0; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* Top bar */
+.topbar { border-bottom: 1.5px solid var(--ink); background: var(--paper); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; flex-wrap: wrap; }
+.topbar .mark { font-family: var(--font-display); font-stretch: 75%; font-weight: 700; font-size: var(--step-1); color: var(--ink); text-decoration: none; }
+.topbar nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.topbar nav a { color: var(--ink); text-decoration: none; font-stretch: 87%; font-weight: 500; padding: 4px 0; border-bottom: 2px solid transparent; }
+.topbar nav a:hover { border-bottom-color: var(--wire); }
+
+/* Hero */
+.hero { padding: clamp(36px, 6vw, 72px) 0 clamp(40px, 6vw, 80px); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.name {
+  font-size: clamp(3.5rem, 10vw, 8.25rem);
+  font-stretch: 62%;
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+.intro { font-size: var(--step-1); line-height: 1.45; max-width: 34ch; margin-bottom: 28px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-bottom: 32px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 600; font-stretch: 87%;
+  padding: 10px 18px; border: 1.5px solid var(--ink); border-radius: 2px;
+  background: var(--ink); color: var(--paper); text-decoration: none; cursor: pointer;
+}
+.btn:hover { background: var(--wire); border-color: var(--wire); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* Title block: the engineering-drawing table used for the hero and every project */
+.titleblock { border: 1.5px solid var(--ink); background: var(--mat); margin: 0; display: grid; grid-template-columns: auto 1fr; }
+.titleblock dt, .titleblock dd { margin: 0; padding: 9px 14px; border-top: 1px solid var(--rule); }
+.titleblock dt { font-stretch: 80%; font-size: var(--step--1); color: var(--ink-2); border-right: 1px solid var(--rule); white-space: nowrap; padding-top: 11px; }
+.titleblock dd { font-size: 0.97rem; line-height: 1.45; }
+.titleblock dt:first-of-type, .titleblock dt:first-of-type + dd { border-top: 0; }
+.status { display: inline-flex; align-items: center; gap: 7px; }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ink-2); }
+.status.live::before { background: var(--mask); box-shadow: 0 0 0 3px rgba(30,107,69,.18); }
+
+.hero-figure { margin: 0; }
+.mat { background: var(--mat); border: 1px solid var(--rule); padding: 8px; }
+.zoom { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; width: 100%; }
+.hero-figure img { width: 100%; height: auto; }
+figcaption { font-size: var(--step--1); color: var(--ink-2); line-height: 1.45; padding-top: 10px; }
+
+/* Sections */
+section { padding: clamp(48px, 7vw, 88px) 0; border-top: 1.5px solid var(--ink); }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: clamp(28px, 4vw, 48px); }
+.section-head p { color: var(--ink-2); max-width: 52ch; }
+
+/* Projects */
+.project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(24px, 4vw, 56px); padding: clamp(32px, 5vw, 56px) 0; border-top: 1px solid var(--rule); }
+.project:first-of-type { border-top: 0; padding-top: 0; }
+.project-text { display: grid; gap: 20px; align-content: start; }
+.lede { max-width: 62ch; }
+.details { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; max-width: 62ch; }
+.details li::marker { color: var(--wire); }
+.details-title { font-weight: 650; font-stretch: 87%; margin-bottom: -10px; }
+
+.gallery { display: grid; gap: 12px; align-content: start; }
+.gallery .main img { width: 100%; height: auto; max-height: 560px; object-fit: contain; background: var(--mat); }
+.thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.thumbs figure { margin: 0; }
+.thumbs .mat { padding: 5px; }
+.thumbs img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+.thumbs img.contain { object-fit: contain; background: var(--mat); }
+.thumbs figcaption { padding-top: 6px; font-size: 0.8125rem; }
+.haptic-gallery { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; }
+.haptic-gallery .thumbs.pair { grid-template-columns: minmax(0, 1fr); }
+.haptic-gallery .thumbs.pair img { aspect-ratio: auto; height: auto; }
+
+.project.wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.project.wide .gallery { grid-column: 1 / -1; }
+.project.wide .gallery .main img { max-height: none; }
+
+/* More projects */
+.more-title { margin: clamp(40px, 6vw, 64px) 0 20px; }
+.log { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+.log li { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) minmax(0, 15rem); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.log time { font-stretch: 80%; color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: var(--step--1); }
+.log h4 { margin: 0 0 4px; font-size: var(--step-1); font-family: var(--font-display); font-stretch: 80%; font-weight: 650; line-height: 1.2; }
+.log p { max-width: 62ch; }
+.log .tools { font-size: var(--step--1); color: var(--ink-2); line-height: 1.5; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1.5px solid var(--ink); background: var(--mat); }
+.skill { padding: 20px 22px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.skill:nth-child(3n) { border-right: 0; }
+.skill:nth-last-child(-n+3) { border-bottom: 0; }
+.skill h3 { font-size: var(--step-1); font-stretch: 80%; margin-bottom: 8px; }
+.skill p { color: var(--ink); line-height: 1.6; }
+
+/* Education & experience */
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); }
+.entry { padding: 18px 0; border-top: 1px solid var(--rule); display: grid; gap: 6px; }
+.entry:first-of-type { border-top: 1.5px solid var(--ink); }
+.entry .when { font-stretch: 80%; color: var(--ink-2); font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+.entry h3 { font-size: var(--step-1); font-stretch: 80%; }
+.entry ul { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.entry li::marker { color: var(--wire); }
+.col-title { font-size: var(--step-2); margin-bottom: 16px; }
+
+/* Contact */
+.contact { display: grid; gap: 20px; max-width: 820px; }
+.email-line { font-family: var(--font-display); font-stretch: 70%; font-weight: 700; font-size: clamp(1.5rem, 4.4vw, 2.75rem); line-height: 1.1; overflow-wrap: break-word; color: var(--ink); }
+.contact-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+#copy-status { color: var(--ink-2); font-size: var(--step--1); min-height: 1.5em; }
+.titleblock.links { max-width: 520px; }
+.titleblock.links dd { overflow-wrap: anywhere; }
+.profile-links { display: inline-flex; gap: 18px; font-weight: 600; font-stretch: 87%; }
+.foot { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; }
+.log-photo { margin: 12px 0 0; max-width: 300px; }
+.log-photo img { width: 100%; height: auto; }
+
+footer { border-top: 1.5px solid var(--ink); padding: 24px 0 40px; color: var(--ink-2); font-size: var(--step--1); }
+
+/* Lightbox */
+dialog#viewer { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 96vh; overflow: visible; }
+dialog#viewer::backdrop { background: rgba(23, 32, 42, 0.86); }
+.viewer-inner { display: grid; gap: 10px; justify-items: center; }
+.viewer-inner img { max-width: 94vw; max-height: 82vh; width: auto; height: auto; background: var(--mat); border: 6px solid var(--mat); }
+.viewer-bar { display: flex; gap: 16px; align-items: center; justify-content: space-between; width: 100%; max-width: 94vw; }
+.viewer-bar p { color: #E9EDEA; font-size: var(--step--1); max-width: 70ch; }
+.viewer-bar .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); flex-shrink: 0; }
+.viewer-bar .btn:hover { background: var(--wire); color: var(--paper); border-color: var(--wire); }
+@media (prefers-reduced-motion: no-preference) {
+  dialog#viewer[open] { animation: rise .18s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero .wrap, .project, .project.wide, .two-col { grid-template-columns: minmax(0, 1fr); }
+  .hero-figure { max-width: 520px; }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .skill:nth-child(2n) { border-right: 0; }
+  .skill:nth-last-child(-n+3) { border-bottom: 1px solid var(--rule); }
+  .skill:nth-last-child(-n+2) { border-bottom: 0; }
+  .log li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+@media (max-width: 560px) {
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .skill { border-right: 0 !important; border-bottom: 1px solid var(--rule) !important; }
+  .skill:last-child { border-bottom: 0 !important; }
+  .thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .titleblock { grid-template-columns: minmax(0, 1fr); }
+  .titleblock dt { border-right: 0; padding-bottom: 0; border-top: 1px solid var(--rule); }
+  .titleblock dd { border-top: 0; padding-top: 2px; }
+  .titleblock dt:first-of-type { border-top: 0; }
+  .topbar nav { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="#top">Brandon Garcia</a>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1 class="name">Brandon Garcia</h1>
+        <p class="intro">Computer engineering senior at Utah Tech. I build embedded hardware end to end: microcontroller firmware, custom PCBs, sensors, and the power systems that run them.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#projects">See projects</a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+          <span class="profile-links"><a href="https://www.linkedin.com/in/brandon-garcia-101e">LinkedIn</a><a href="https://github.com/brandongarciaorea-wq">GitHub</a></span>
+        </div>
+        <dl class="titleblock">
+          <dt>Degree</dt><dd>B.S. Computer Engineering, Utah Tech University</dd>
+          <dt>Graduating</dt><dd>May 2027</dd>
+          <dt>Based in</dt><dd>St. George, Utah</dd>
+          <dt>Credentials</dt><dd>Passed the FE exam (Electrical and Computer), September 2026. Dean's List.</dd>
+          <dt>Focus</dt><dd>Embedded systems, controls, and sensing hardware</dd>
+          <dt>Languages</dt><dd>English and Spanish</dd>
+        </dl>
+      </div>
+      <figure class="hero-figure">
+        <button class="zoom mat" type="button" data-full="img/opamp-pcb.jpg" data-caption="A 741 op-amp built from discrete transistors on a PCB, ECE 2225 Lab 6, October 2026." aria-label="Enlarge photo of the discrete op-amp PCB">
+          <img src="img/opamp-pcb.jpg" width="1198" height="1365" alt="Green PCB with twenty through-hole transistors, eleven resistors and one capacitor, silkscreened Brandon Garcia 10/23/26 ECE 2225 Lab06, with jumper wires on its 8-pin header.">
+        </button>
+        <figcaption>A 741 op-amp rebuilt from twenty discrete transistors on a board I laid out in KiCad, ECE 2225. Details below.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <p>Selected hardware projects, newest and largest first. Select any photo or schematic to enlarge it.</p>
+      </div>
+
+      <!-- Propulsion -->
+      <article class="project" id="propulsion">
+        <div class="project-text">
+          <h3>Boat propulsion control and touchscreen dashboard</h3>
+          <p class="lede">Propulsion and steering for a boat with two brushless motors. An MSP430 reads two control potentiometers and drives each motor's ESC with PWM. An ESP32 collects telemetry and feeds a 7-inch Nextion touchscreen that shows speed, battery voltage, temperature, and run time for each motor.</p>
+          <dl class="titleblock">
+            <dt>Role</dt><dd>Project lead</dd>
+            <dt>Dates</dt><dd>January 2026 to present</dd>
+            <dt>Status</dt><dd><span class="status live">In progress</span></dd>
+            <dt>Main parts</dt><dd>MSP430G2553, ESP32, Nextion NX8048P070, two 5–12S ESCs, BLDC motors</dd>
+            <dt>Power</dt><dd>36 V pack from two 18 V batteries</dd>
+          </dl>
+          <p class="details-title">Design details</p>
+          <ul class="details">
+            <li>A buck converter steps the 36 V pack down to 5 V, and an LD1117 regulator supplies 3.3 V to the MSP430.</li>
+            <li>Separate main power and motor kill switches. The kill switch cuts supply to both ESCs as an emergency shutoff.</li>
+            <li>Two DRV5056 hall-effect sensors feed motor speed to the ESP32, and a DS18B20 reads temperature.</li>
+            <li>A 100 kΩ / 8.2 kΩ divider scales the 36 V pack to about 2.7 V for the ESP32's ADC.</li>
+            <li>A 1 kΩ / 2 kΩ divider on the display's serial line protects the ESP32's 3.3 V receive pin.</li>
+            <li>Bench-tested a 100 A AM32 ESC with a 1000–2000 µs PWM throttle signal.</li>
+          </ul>
+        </div>
+        <div class="gallery">
+          <figure class="main" style="margin:0">
+            <button class="zoom mat" type="button" data-full="img/boat-dashboard.jpg" data-caption="Nextion dashboard running on the bench: left and right motor run time, speed, battery voltage, and temperature." aria-label="Enlarge photo of the Nextion dashboard">
+              <img src="img/boat-dashboard.jpg" width="1600" height="918" alt="7-inch touchscreen showing gauges for left and right motor run time, an MPH gauge, a battery voltage readout and a thermometer reading 26.7 degrees Celsius.">
+            </button>
+            <figcaption>The dashboard on the bench, reading 26.7 °C from the DS18B20.</figcaption>
+          </figure>
+          <ul class="thumbs">
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/boat-msp430-schematic.png" data-caption="MSP430 side: throttle potentiometers, PWM to two ESCs and motors, 36 V to 5 V buck converter, 3.3 V regulator, main and kill switches." aria-label="Enlarge MSP430 schematic">
+                <img class="contain" src="img/boat-msp430-schematic.png" width="996" height="936" alt="Schematic of the MSP430G2553 motor control side with two potentiometers, two ESCs, two motors, a buck converter and two 18 V batteries.">
+              </button>
+              <figcaption>MSP430 motor control schematic</figcaption>
+            </figure></li>
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/boat-esp32-schematic.png" data-caption="ESP32 side: hall-effect speed sensors, DS18B20 temperature sensor, battery voltage divider, and serial link to the Nextion display." aria-label="Enlarge ESP32 schematic">
+                <img class="contain" src="img/boat-esp32-schematic.png" width="714" height="912" alt="Schematic of the ESP32 telemetry side with two DRV5056 hall-effect sensors, a DS18B20 temperature sensor, a voltage divider and the Nextion display connector.">
+              </button>
+              <figcaption>ESP32 telemetry schematic</figcaption>
+            </figure></li>
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/boat-enclosure.jpg" data-caption="The Nextion NX8048P070 mounted in its case, with the I/O ribbon and four-wire power and serial harness connected." aria-label="Enlarge photo of the display in its case">
+                <img src="img/boat-enclosure.jpg" width="1034" height="1600" alt="Back of the red Nextion display board mounted inside a hard case with foam lining, with a ribbon cable and a four-wire power harness.">
+              </button>
+              <figcaption>Display mounted in its case</figcaption>
+            </figure></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Traffic counter -->
+      <article class="project wide" id="traffic-counter">
+        <div class="project-text">
+          <h3>Optical traffic counter for the City of St. George</h3>
+          <p class="lede">A trailer-mounted counter that records turning-movement counts at intersections. One camera watches the intersection, and a YOLO model on a Jetson Orin Nano Super detects, tracks, and classifies road users by turning movement. Counts export to Excel, and data is delivered remotely over an LTE router.</p>
+          <dl class="titleblock">
+            <dt>Role</dt><dd>Senior design project for the City of St. George</dd>
+            <dt>Dates</dt><dd>September 2026 to present</dd>
+            <dt>Status</dt><dd><span class="status live">In progress</span></dd>
+            <dt>Main parts</dt><dd>Jetson Orin Nano Super, InVid 8 MP camera, Red Lion RAM-6921 LTE router</dd>
+            <dt>Classes</dt><dd>Passenger cars, light trucks, SUVs, motorcycles, trailers, pedestrians, bicyclists</dd>
+            <dt>Budget</dt><dd>$3,000</dd>
+          </dl>
+        </div>
+        <div class="project-text">
+          <p class="details-title">Power and wiring design</p>
+          <ul class="details">
+            <li>Four 6 V golf-cart batteries wired 2S2P for 12 V and 372 Ah, charged by a 230 W solar panel through an MPPT controller and by the trailer's existing converter on shore power.</li>
+            <li>A timer-driven 40 A relay powers the system from 6:30 AM to 7:00 PM, so overnight draw stays at 4.5 W or less.</li>
+            <li>Boost converters supply 19 V to the Jetson and 24 V to a cabinet cooler, which a thermostat switches on above 85 °F.</li>
+            <li>Power budget of about 186 W with the cooler running and 55 W without. Every branch is fused at roughly 125–150% of its load.</li>
+            <li>Electronics sit on DIN rail in a 12 × 10 × 8 in IP66 enclosure, with LTE and GPS antennas on top.</li>
+          </ul>
+          <p class="details-title">Software</p>
+          <ul class="details">
+            <li>A Flask web dashboard shows live status, camera snapshots with counting zones, interval counts, and report downloads.</li>
+          </ul>
+        </div>
+        <div class="gallery">
+          <figure class="main" style="margin:0">
+            <button class="zoom mat" type="button" data-full="img/traffic-wiring-full.jpg" data-caption="Full wiring diagram with the wire schedule (gauge, color, fuse for each run) and the power budget." aria-label="Enlarge the traffic counter wiring diagram">
+              <img src="img/traffic-wiring.jpg" width="2400" height="1092" alt="Wiring diagram showing the trailer battery box with four 6 V batteries, solar panel and MPPT controller, and the system enclosure with timer, relays, fuse block, boost converters, Jetson Orin Nano Super, LTE router, camera and cooler.">
+            </button>
+            <figcaption>Physical wiring layout. Open it to see the full wire schedule and power budget.</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- Haptic wearable -->
+      <article class="project" id="haptic-wearable">
+        <div class="project-text">
+          <h3>Haptic distance-feedback wearable</h3>
+          <p class="lede">A wearable prototype that turns distance into touch. A time-of-flight sensor (VL53L0X) or ultrasonic sensor (HC-SR04) measures the distance to the nearest obstacle, and an M5StampS3 drives a vibration motor that vibrates or pulses more as the obstacle gets closer. I also wrote the project's literature review of prior work.</p>
+          <dl class="titleblock">
+            <dt>Role</dt><dd>Undergraduate research project</dd>
+            <dt>Dates</dt><dd>February to May 2026</dd>
+            <dt>Status</dt><dd><span class="status">Completed</span></dd>
+            <dt>Main parts</dt><dd>M5StampS3, VL53L0X, HC-SR04, coin vibration motor</dd>
+            <dt>Wireless</dt><dd>Bluetooth Low Energy</dd>
+          </dl>
+        </div>
+        <div class="gallery haptic-gallery">
+          <figure class="main" style="margin:0">
+            <button class="zoom mat" type="button" data-full="img/haptic-wearable.jpg" data-caption="Prototype worn on the hand: M5StampS3 on a breadboard, with the coin vibration motor taped near the knuckles." aria-label="Enlarge photo of the wearable prototype">
+              <img src="img/haptic-wearable.jpg" width="1372" height="1600" alt="Small breadboard with an orange M5StampS3 module taped to the back of a hand, wired to a coin vibration motor near the knuckles.">
+            </button>
+            <figcaption>Prototype on the hand, with the vibration motor near the knuckles.</figcaption>
+          </figure>
+          <ul class="thumbs pair">
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/haptic-tof.jpg" data-caption="VL53L0X time-of-flight distance sensor held in the palm, wired back to the M5StampS3." aria-label="Enlarge photo of the time-of-flight sensor">
+                <img src="img/haptic-tof.jpg" width="1466" height="1340" alt="VL53L0X time-of-flight sensor breakout with a green status LED, resting in an open palm with its cable running away.">
+              </button>
+              <figcaption>VL53L0X time-of-flight sensor</figcaption>
+            </figure></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Op-amp PCB -->
+      <article class="project" id="opamp-pcb">
+        <div class="project-text">
+          <h3>A 741 op-amp built from discrete transistors</h3>
+          <p class="lede">I laid out the internal circuit of a 741 operational amplifier in KiCad and assembled it on its own PCB, one transistor at a time. The header follows the 741's 8-pin layout (offset null, inputs, supplies, output), so the board drops into any standard op-amp test circuit.</p>
+          <dl class="titleblock">
+            <dt>Course</dt><dd>ECE 2225, Lab 6</dd>
+            <dt>Layout</dt><dd>KiCad, hand-soldered through-hole</dd>
+            <dt>Date</dt><dd>October 2026</dd>
+            <dt>Status</dt><dd><span class="status">Completed</span></dd>
+            <dt>Parts</dt><dd>20 BJTs, 11 resistors, 1 compensation capacitor</dd>
+            <dt>Bench result</dt><dd>Inverting amplifier at 1 kHz: 2.01 Vpp in, 3.74 Vpp out, a gain of about −1.86</dd>
+          </dl>
+          <ul class="details">
+            <li>Tested on the bench with a function generator, power supply, and oscilloscope, wired as an inverting amplifier on a breadboard.</li>
+            <li>An earlier practice board from the same course (Lab 5), also laid out in KiCad, to build up soldering and PCB workflow before the op-amp.</li>
+          </ul>
+        </div>
+        <div class="gallery">
+          <figure class="main" style="margin:0">
+            <button class="zoom mat" type="button" data-full="img/opamp-scope.png" data-caption="Oscilloscope capture: 1 kHz input in yellow (2.01 Vpp) and the inverted output in green (3.74 Vpp)." aria-label="Enlarge oscilloscope capture">
+              <img src="img/opamp-scope.png" width="800" height="503" alt="Oscilloscope screen with a yellow 1 kHz sine wave at 2.01 volts peak to peak and a larger green sine wave at 3.74 volts peak to peak that is inverted relative to it.">
+            </button>
+            <figcaption>Input (yellow) and inverted output (green) at 1 kHz.</figcaption>
+          </figure>
+          <ul class="thumbs">
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/opamp-test.jpg" data-caption="The discrete op-amp board wired to a breadboard feedback network and scope probes for testing." aria-label="Enlarge photo of the op-amp test setup">
+                <img src="img/opamp-test.jpg" width="1600" height="1395" alt="The green op-amp PCB connected by jumper wires to a breadboard with resistors, with oscilloscope probes clipped on.">
+              </button>
+              <figcaption>Bench test setup</figcaption>
+            </figure></li>
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/opamp-pcb.jpg" data-caption="Top view of the finished board: Q1 to Q22, R1 to R11, and C1." aria-label="Enlarge top view of the op-amp PCB">
+                <img src="img/opamp-pcb.jpg" width="1198" height="1365" alt="Top view of the green discrete op-amp PCB with labeled transistors and resistors.">
+              </button>
+              <figcaption>Finished board, top view</figcaption>
+            </figure></li>
+            <li><figure>
+              <button class="zoom mat" type="button" data-full="img/lab05-pcb.jpg" data-caption="ECE 2225 Lab 5: a KiCad and soldering practice board with a seven-segment display, two push buttons, and a 9 V battery connector." aria-label="Enlarge photo of the Lab 5 seven-segment board">
+                <img src="img/lab05-pcb.jpg" width="1365" height="966" alt="Green PCB silkscreened Brandon Garcia 10/02/26 ECE 2225 Lab05 with two push buttons, a DIP IC, an orange seven-segment display and a 9 V battery clip.">
+              </button>
+              <figcaption>Lab 5 seven-segment board</figcaption>
+            </figure></li>
+          </ul>
+        </div>
+      </article>
+
+      <h3 class="more-title" id="more">More projects</h3>
+      <ul class="log">
+        <li>
+          <time>Oct 2026 – now</time>
+          <div><h4>Global scheduler for the xv6 kernel</h4><p>Operating systems course project: implementing a global scheduler in the xv6 teaching kernel.</p></div>
+          <p class="tools">C, xv6 kernel, Linux</p>
+        </li>
+        <li>
+          <time>Fall 2026</time>
+          <div><h4>Control design studies</h4><p>Model predictive controllers, extended Kalman filter observers, and phase-plot stability checks for simulated block-on-beam, mass-spring-damper, and planar VTOL systems.</p></div>
+          <p class="tools">Python, state-space design, MPC, EKF</p>
+        </li>
+        <li>
+          <time>Dec 2025</time>
+          <div><h4>IMU gesture control</h4><p>A BNO055 IMU detects tilt and roll gestures and drives servos over a serial link.</p></div>
+          <p class="tools">BNO055, servos, serial</p>
+        </li>
+        <li>
+          <time>Aug – Dec 2025</time>
+          <div><h4>Bluetooth-controlled vehicle</h4><p>Project lead on an ESP32-based vehicle driven over Bluetooth.</p>
+            <figure class="log-photo">
+              <button class="zoom mat" type="button" data-full="img/bt-car.jpg" data-caption="The Bluetooth-controlled vehicle: two-wheel chassis with motor driver, microcontroller board, and battery pack." aria-label="Enlarge photo of the Bluetooth-controlled vehicle">
+                <img src="img/bt-car.jpg" width="1134" height="873" alt="Two-wheel robot car with yellow wheels on an acrylic chassis, carrying a breadboard, motor driver board, microcontroller board and a battery pack, with many jumper wires.">
+              </button>
+            </figure>
+          </div>
+          <p class="tools">ESP32, Bluetooth</p>
+        </li>
+        <li>
+          <time>Fall 2025</time>
+          <div><h4>YouFace web app</h4><p>Team web app for CS 2450 where users "goose" a profile to add it or "duck" to skip it, tested with Selenium.</p></div>
+          <p class="tools">Python, Flask, Jinja, Selenium</p>
+        </li>
+        <li>
+          <time>Apr 2025</time>
+          <div><h4>Light-activated LED</h4><p>Circuits final project: an MCP602 op-amp comparator reads a light-dependent resistor and turns an LED on in the dark.</p></div>
+          <p class="tools">MCP602, LDR, comparator design</p>
+        </li>
+        <li>
+          <time>Jan – May 2025</time>
+          <div><h4>UTxplore carnival game</h4><p>An ESP32 game with RFID player check-in, a hall-effect flow sensor, servos, a 30-second round timer, and a leaderboard web page stored in SPIFFS.</p></div>
+          <p class="tools">ESP32, RFID, hall-effect sensor, SPIFFS web server</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Skills</h2>
+      </div>
+      <div class="skills">
+        <div class="skill"><h3>Microcontrollers</h3><p>ESP32, M5StampS3, MSP430, ATmega328P (register level), Jetson Orin Nano</p></div>
+        <div class="skill"><h3>Programming</h3><p>C, C++, Python, Go, Assembly</p></div>
+        <div class="skill"><h3>Hardware</h3><p>Circuit analysis, PCB layout and assembly, soldering, oscilloscope debugging, DC power and wiring design</p></div>
+        <div class="skill"><h3>Interfaces</h3><p>BLE, UART, I2C, PWM motor control, ADC sensing</p></div>
+        <div class="skill"><h3>Controls</h3><p>PID, state-space design, observers and Kalman filters, model predictive control</p></div>
+        <div class="skill"><h3>Tools</h3><p>KiCad, EasyEDA, Code Composer Studio, Nextion Editor, Onshape, Git and GitHub, Linux (WSL)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap two-col">
+      <div>
+        <h2 class="col-title">Education</h2>
+        <div class="entry">
+          <span class="when">Fall 2023 to May 2027 (expected)</span>
+          <h3>B.S. Computer Engineering, Utah Tech University</h3>
+          <ul>
+            <li>Dean's List</li>
+            <li>Passed the FE exam, Electrical and Computer, September 2026</li>
+            <li>Coursework: controls (PID, state space, frequency response), modern control, signals and systems, microcontrollers, operating systems, data structures and algorithms, probability and statistics, mechanical design</li>
+            <li>Tri Alpha Honor Society, Computer and Electrical Engineering majors group, Chemistry Club, TRIO community</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h2 class="col-title">Experience</h2>
+        <div class="entry">
+          <span class="when">October 2025 to present</span>
+          <h3>Physics and Technical Tutor</h3>
+          <p>Tutor students in physics, algebra, and mechanics.</p>
+        </div>
+        <div class="entry">
+          <span class="when">March 2022 to May 2026</span>
+          <h3>Backroom Coordinator, TJ Maxx</h3>
+          <p>Handled high-volume inventory flow in the stockroom.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap"><div class="contact">
+      <h2>Contact</h2>
+      <p>Open to embedded systems and controls internships and to conversations about graduate research. Email is the best way to reach me.</p>
+      <p class="email-line" id="email">brandon.garcia.orea@<wbr>gmail.com</p>
+      <div class="contact-actions">
+        <a class="btn" href="mailto:brandon.garcia.orea@gmail.com">Email Brandon</a>
+        <button class="btn ghost" type="button" id="copy-email">Copy email address</button>
+        <span id="copy-status" role="status"></span>
+      </div>
+      <dl class="titleblock links">
+        <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/brandon-garcia-101e">linkedin.com/in/brandon-garcia-101e</a></dd>
+        <dt>GitHub</dt><dd><a href="https://github.com/brandongarciaorea-wq">github.com/brandongarciaorea-wq</a></dd>
+      </dl>
+    </div></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot"><span>Brandon Garcia, St. George, Utah. Updated November 2026.</span><span class="profile-links"><a href="https://www.linkedin.com/in/brandon-garcia-101e">LinkedIn</a><a href="https://github.com/brandongarciaorea-wq">GitHub</a></span></div>
+</footer>
+
+<dialog id="viewer" aria-label="Enlarged image">
+  <div class="viewer-inner">
+    <img id="viewer-img" src="" alt="">
+    <div class="viewer-bar">
+      <p id="viewer-cap"></p>
+      <button class="btn" type="button" id="viewer-close">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  var dlg = document.getElementById('viewer');
+  var img = document.getElementById('viewer-img');
+  var cap = document.getElementById('viewer-cap');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-full]');
+    if (!b) return;
+    var thumb = b.querySelector('img');
+    img.src = b.getAttribute('data-full');
+    img.alt = thumb ? thumb.alt : '';
+    cap.textContent = b.getAttribute('data-caption') || '';
+    if (typeof dlg.showModal === 'function') { dlg.showModal(); }
+    else { dlg.setAttribute('open', ''); }
+  });
+  document.getElementById('viewer-close').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+
+  var copyBtn = document.getElementById('copy-email');
+  var status = document.getElementById('copy-status');
+  copyBtn.addEventListener('click', function () {
+    var addr = document.getElementById('email').textContent.trim();
+    try {
+      navigator.clipboard.writeText(addr).then(function () {
+        status.textContent = 'Copied to clipboard.';
+      }, function () {
+        status.textContent = 'Copy is blocked here. Select the address above to copy it.';
+      });
+    } catch (err) {
+      status.textContent = 'Copy is blocked here. Select the address above to copy it.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
