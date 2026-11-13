@@ -134,6 +134,11 @@ section { padding: clamp(48px, 7vw, 88px) 0; border-top: 1.5px solid var(--ink);
 
 .gallery { display: grid; gap: 12px; align-content: start; }
 .gallery .main img { width: 100%; height: auto; max-height: 560px; object-fit: contain; background: var(--mat); }
+.kicad-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.kicad-pair figure { margin: 0; }
+.kicad-pair .mat { padding: 5px; }
+.kicad-pair img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; background: var(--mat); }
+.kicad-pair figcaption { padding-top: 6px; font-size: 0.8125rem; }
 .thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
 .thumbs figure { margin: 0; }
 .thumbs .mat { padding: 5px; }
@@ -424,6 +429,20 @@ dialog#viewer::backdrop { background: rgba(23, 32, 42, 0.86); }
             </button>
             <figcaption>Input (yellow) and inverted output (green) at 1 kHz.</figcaption>
           </figure>
+          <div class="kicad-pair">
+            <figure>
+              <button class="zoom mat" type="button" data-full="img/opamp-kicad-schematic.png" data-caption="KiCad schematic of the discrete 741 with 2N3904 and 2N3906 transistors, 11 resistors, and the 33 pF compensation capacitor." aria-label="Enlarge the KiCad schematic">
+                <img src="img/opamp-kicad-schematic.png" width="1180" height="649" alt="KiCad schematic of the 741 op-amp built from 2N3904 and 2N3906 transistors, resistors and a 33 pF capacitor, with an 8-pin connector on the left.">
+              </button>
+              <figcaption>KiCad schematic</figcaption>
+            </figure>
+            <figure>
+              <button class="zoom mat" type="button" data-full="img/opamp-kicad-pcb.png" data-caption="PCB layout in KiCad. I picked wider-spaced transistor footprints to make hand soldering easier." aria-label="Enlarge the KiCad PCB layout">
+                <img src="img/opamp-kicad-pcb.png" width="1084" height="822" alt="KiCad PCB layout with red and blue copper traces connecting transistor and resistor footprints, the 8-pin connector J9, and the silkscreen Brandon Garcia 10/23/26 ECE 2225 Lab06.">
+              </button>
+              <figcaption>KiCad PCB layout</figcaption>
+            </figure>
+          </div>
           <ul class="thumbs">
             <li><figure>
               <button class="zoom mat" type="button" data-full="img/opamp-test.jpg" data-caption="The discrete op-amp board wired to a breadboard feedback network and scope probes for testing." aria-label="Enlarge photo of the op-amp test setup">
